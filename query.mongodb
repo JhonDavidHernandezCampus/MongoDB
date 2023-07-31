@@ -1,0 +1,30 @@
+use("db_campus_alquiler");
+db.createCollection("sucursal");
+db.createCollection("sucursal_automovil");
+
+use("db_campus_alquiler");
+db.sucursal.insertOne({
+    _id: 1,
+    ID_Sucursal:1,
+    Nombre:"Bucaramanga",
+    Direccion:"calla 11 cr.32",
+    Telefono:"3224757534"
+})
+
+use("db_campus_alquiler");
+db.sucursal_automovil.insertOne({
+    _id: 1,
+    ID_Sucursal_id: 1,
+    ID_Automovil_id: 1,
+    Cantidad_Disponible:5
+})
+
+use("db_campus_alquiler");
+db.getCollection("sucursal").aggregate({
+    $lookup:{
+        from:"sucursal_automovil",
+        localField:"_id",
+        foreignField: "ID_Sucursal_id",
+        as:"Relacion_fk"
+    }
+})
