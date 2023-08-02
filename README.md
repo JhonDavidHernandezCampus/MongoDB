@@ -54,3 +54,31 @@ y ``insertedId`` este ma muestra el id del documento recien creado
  Campos (Clave-Valor)   |      |   | Columnas (Atributos)
 ```
 
+#### Consultas en mongoDB Multitablas
+
+```json
+use("db_campus_alquiler");
+db.getCollection('cliente').aggregate([
+    {
+        $lookup:{
+            from:"alquiler",
+            localField:"_id",
+            foreignField:"ID_Cliente",
+            as:"alquiler_FK"
+        }
+    }
+])
+
+
+
+```
+
+
+
+$lookup parámetros:
+
+- `from: "alquiler":` Especifica la colección con la que queremos realizar la unión, en este caso, "alquiler".
+- `localField: "ID_Alquiler":` Especifica el campo de la colección actual ("cliente") que se utilizará para la unión.
+- `foreignField: "ID_Cliente":` Especifica el campo de la colección con la que estamos haciendo la unión ("alquiler") que se utilizará para la unión.
+- `as: "alquiler_FK":` Este es el nombre del nuevo campo que se creará en cada documento de la colección "cliente" que contendrá los datos de la colección "alquiler" que coincidan con la unión.
+

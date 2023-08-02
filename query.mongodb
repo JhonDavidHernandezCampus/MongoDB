@@ -1,13 +1,22 @@
 use("db_campus_alquiler");
+// Creamos las coleciones (Tablas)
 db.createCollection("sucursal");
-db.createCollection("sucursal_automovil");
+db.createCollection("reserva");
+db.createCollection("registro_entrega");
+db.createCollection("registro_devolucion");
+db.createCollection("empleado");
+db.createCollection("cliente");
+db.createCollection("automovil");
+db.createCollection("alquiler");
 
+
+// Insertamos datos en las coleciones
 use("db_campus_alquiler");
 db.sucursal.insertOne({
-    _id: 1,
-    ID_Sucursal:1,
-    Nombre:"Bucaramanga",
-    Direccion:"calla 11 cr.32",
+    _id: 2,
+    ID_Sucursal:2,
+    Nombre:"Medellin",
+    Direccion:"calla 12 cr.32",
     Telefono:"3224757534"
 })
 
@@ -19,6 +28,472 @@ db.sucursal_automovil.insertOne({
     Cantidad_Disponible:5
 })
 
+db.reserva.insertOne({
+    _id: 6,
+    ID_Reserva_id:6,
+    ID_Cliente_id:6,
+    ID_Automovil_id:6,
+    Fecha_Reserva:"2023-12-1",
+    Fecha_Inicio:"2023-12-1",
+    Fecha_Fin:"2023-12-1",
+    Estado:"Bueno"
+})
+
+use('db_campus_alquiler');
+db.alquiler.insertMany([
+    {
+        _id: 1,
+        ID_Alquiler:1,
+        ID_Cliente:1,
+        ID_Automovil:1,
+        Fecha_Inicio:"2020-12-12",
+        Fecha_Fin:"2020-12-15",
+        Costo_Total:2000,
+        Estado:"Libre"
+    },
+    {
+        _id: 2,
+        ID_Alquiler:2,
+        ID_Cliente:2,
+        ID_Automovil:2,
+        Fecha_Inicio:"2020-13-13",
+        Fecha_Fin:"2020-13-16",
+        Costo_Total:23000,
+        Estado:"Ocupado"
+    },
+    {
+        _id: 3,
+        ID_Alquiler:3,
+        ID_Cliente:3,
+        ID_Automovil:3,
+        Fecha_Inicio:"2020-14-4",
+        Fecha_Fin:"2020-14-17",
+        Costo_Total:20030,
+        Estado:"Libre"
+    },
+    {
+        _id: 4,
+        ID_Alquiler:4,
+        ID_Cliente:4,
+        ID_Automovil:4,
+        Fecha_Inicio:"2020-15-15",
+        Fecha_Fin:"2020-15-15",
+        Costo_Total:25000,
+        Estado:"Libre"
+    },
+    {
+        _id: 5,
+        ID_Alquiler:5,
+        ID_Cliente:5,
+        ID_Automovil:5,
+        Fecha_Inicio:"2020-12-16",
+        Fecha_Fin:"2020-12-17",
+        Costo_Total:2000,
+        Estado:"Libre"
+    },
+    {
+        _id: 6,
+        ID_Alquiler:6,
+        ID_Cliente:6,
+        ID_Automovil:6,
+        Fecha_Inicio:"2020-13-13",
+        Fecha_Fin:"2020-13-16",
+        Costo_Total:23000,
+        Estado:"Ocupado"
+    },
+]);
+use('db_campus_alquiler');
+db.automovil.insertMany([
+    {
+        _id: 1,
+        ID_Automovil:1,
+        Marca:"Chebrolet",
+        Modelo:"ZQ 12000",
+        Anio:2023,
+        Tipo:"Camioneta",
+        Capacidad:"5 personas",
+        Precio_Diario:120000
+    },
+    {
+        _id: 2,
+        ID_Automovil:2,
+        Marca:"Toyota",
+        Modelo:"Supra S2001",
+        Anio:2023,
+        Tipo:"Deportivo",
+        Capacidad:"2 personas",
+        Precio_Diario:120000
+    },
+    {
+        _id: 3,
+        ID_Automovil:3,
+        Marca:"Toyota",
+        Modelo:"lancruser Prado 12000",
+        Anio:2023,
+        Tipo:"Camioneta",
+        Capacidad:"5 personas",
+        Precio_Diario:120000
+    },
+    {
+        _id: 4,
+        ID_Automovil:4,
+        Marca:"Chebrolet",
+        Modelo:"ZQ 12",
+        Anio:2020,
+        Tipo:"Casero",
+        Capacidad:"5 personas",
+        Precio_Diario:1200
+    },
+    {
+        _id: 5,
+        ID_Automovil:5,
+        Marca:"Honda",
+        Modelo:"DW 1200",
+        Anio:2010,
+        Tipo:"Deportivo",
+        Capacidad:"5 personas",
+        Precio_Diario:12222
+    },
+]);
+use('db_campus_alquiler');
+db.cliente.insertMany([
+    {
+        _id: 1,
+        ID_Cliente:1,
+        Nombre:"Jhon",
+        Apellido:"Hernandez",
+        DNI:"SAL-122",
+        Direccion:"calle 23 - 2",
+        Telefono:"433212121",
+        Email:"Email1.email.com.co"
+    },
+    {
+        _id: 2,
+        ID_Cliente:2,
+        Nombre:"Jhon2",
+        Apellido:"Hernandez2",
+        DNI:"SAL-123",
+        Direccion:"calle 23 - 3",
+        Telefono:"43321213",
+        Email:"Email2.email.com.co"
+    },
+    {
+        _id:3,
+        ID_Cliente:3,
+        Nombre:"Jhon3",
+        Apellido:"Hernandez3",
+        DNI:"SAL-122",
+        Direccion:"calle 23 - 2",
+        Telefono:"433212121",
+        Email:"Email1.email.com.co"
+    },
+    {
+        _id: 4,
+        ID_Cliente:4,
+        Nombre:"Jhon4",
+        Apellido:"Hernandez4",
+        DNI:"SAL-124",
+        Direccion:"calle 23 - 4",
+        Telefono:"433212121",
+        Email:"Email4.email.com.co"
+    },
+    {
+        _id: 5,
+        ID_Cliente:5,
+        Nombre:"Jhon5",
+        Apellido:"Hernandez5",
+        DNI:"SAL-125",
+        Direccion:"calle 23 - 5",
+        Telefono:"433212121",
+        Email:"Email5.email.com.co"
+    },
+]);
+use('db_campus_alquiler');
+db.empleado.insertMany([
+    {
+        _id:1,
+        ID_Empleado:1,
+        Nombre:"Sebastian",
+        Apellido:"Hernandez",
+        DNI:"asd-21",
+        Direccion:"Sentenario-122-21",
+        Telefono:"3224729191",
+        Cargo:"Empleado"
+    },
+    {
+        _id:2,
+        ID_Empleado:2,
+        Nombre:"Sebastian_2",
+        Apellido:"Hernandez_2",
+        DNI:"asd-22",
+        Direccion:"Sentenario-122-22",
+        Telefono:"3224729192",
+        Cargo:"Empleado_2"
+    },
+    {
+        _id:3,
+        ID_Empleado:1,
+        Nombre:"Sebastian_3",
+        Apellido:"Hernandez_3",
+        DNI:"asd-23",
+        Direccion:"Sentenario-122-23",
+        Telefono:"3224729193",
+        Cargo:"Empleado_3"
+    },
+    {
+        _id:4,
+        ID_Empleado:1,
+        Nombre:"Sebastian_4",
+        Apellido:"Hernandez_4",
+        DNI:"asd-21_4",
+        Direccion:"Sentenario-122-24",
+        Telefono:"3224729194",
+        Cargo:"Empleado_4"
+    },
+    {
+        _id:5,
+        ID_Empleado:1,
+        Nombre:"Sebastian_5",
+        Apellido:"Hernandez_5",
+        DNI:"asd-25",
+        Direccion:"Sentenario-122-25",
+        Telefono:"32247291912",
+        Cargo:"Empleado_5"
+    }
+]);
+use('db_campus_alquiler');
+db.registro_devolucion.insertMany([
+    {
+        _id:1,
+        ID_Registro:1,
+        ID_Alquiler:1,
+        ID_Empleado:1,
+        Fecha_Devolucion:"2002-12-3",
+        Combustible_Devuelto:"201",
+        Kilometraje_devuelto:"2013",
+        Monto_Adicional:"2000"
+    },
+    {
+        _id:2,
+        ID_Registro:2,
+        ID_Alquiler:2,
+        ID_Empleado:2,
+        Fecha_Devolucion:"2002-12-2",
+        Combustible_Devuelto:"201",
+        Kilometraje_devuelto:"2013",
+        Monto_Adicional:"2000"
+    },
+    {
+        _id:3,
+        ID_Registro:3,
+        ID_Alquiler:3,
+        ID_Empleado:3,
+        Fecha_Devolucion:3,
+        Combustible_Devuelto:"201",
+        Kilometraje_devuelto:"2013",
+        Monto_Adicional:"2000"
+    },
+    {
+        _id:4,
+        ID_Registro:4,
+        ID_Alquiler:4,
+        ID_Empleado:4,
+        Fecha_Devolucion:4,
+        Combustible_Devuelto:"201",
+        Kilometraje_devuelto:"2014",
+        Monto_Adicional:"2004"
+    },
+    {
+        _id:5,
+        ID_Registro:5,
+        ID_Alquiler:5,
+        ID_Empleado:5,
+        Fecha_Devolucion:5,
+        Combustible_Devuelto:"201",
+        Kilometraje_devuelto:"2015",
+        Monto_Adicional:"2000"
+    },
+]);
+use('db_campus_alquiler');
+db.registro_entrega.insertMany([
+    {
+        _id:1,
+        ID_Registro:1,
+        ID_Alquiler:1,
+        ID_Empleado:1,
+        Fecha_Entrega:"2023-12-12",
+        Combustible_Entregado:"20 lt",
+        Kilometraje_Entrgado:200.3,
+    },
+    {
+        _id:2,
+        ID_Registro:3,
+        ID_Alquiler:3,
+        ID_Empleado:3,
+        Fecha_Entrega:"2023-12-14",
+        Combustible_Entregado:"22 lt",
+        Kilometraje_Entrgado:200.4,
+    },
+    {
+        _id:3,
+        ID_Registro:2,
+        ID_Alquiler:2,
+        ID_Empleado:2,
+        Fecha_Entrega:"2023-12-15",
+        Combustible_Entregado:"20 lt",
+        Kilometraje_Entrgado:200.6,
+    },
+    {
+        _id:4,
+        ID_Registro:4,
+        ID_Alquiler:4,
+        ID_Empleado:4,
+        Fecha_Entrega:"2023-12-15",
+        Combustible_Entregado:"21 lt",
+        Kilometraje_Entrgado:200.3,
+    },
+    {
+        _id:5,
+        ID_Registro:5,
+        ID_Alquiler:5,
+        ID_Empleado:5,
+        Fecha_Entrega:"2023-12-16",
+        Combustible_Entregado:"20 lt",
+        Kilometraje_Entrgado:200.7,
+    },
+]);
+use('db_campus_alquiler')
+db.reserva.insertMany([
+    {
+        _id:1,
+        ID_Reserva:1,
+        ID_Cliente:1,
+        ID_Automovil:1,
+        Fecha_Reserva:"2023-12-12",
+        Fecha_Inicio:"2023-12-15",
+        Fecha_Fin:"2023-12-16",
+        Estado:"Buen estado",
+    },
+    {
+        _id:2,
+        ID_Reserva:2,
+        ID_Cliente:2,
+        ID_Automovil:2,
+        Fecha_Reserva:"2023-12-13",
+        Fecha_Inicio:"2023-12-15",
+        Fecha_Fin:"2023-12-17",
+        Estado:"Buen estado",
+    },
+    {
+        _id:3,
+        ID_Reserva:3,
+        ID_Cliente:3,
+        ID_Automovil:3,
+        Fecha_Reserva:"2023-12-14",
+        Fecha_Inicio:"2023-12-17",
+        Fecha_Fin:"2023-12-17",
+        Estado:"Buen estado",
+    },
+    {
+        _id:4,
+        ID_Reserva:4,
+        ID_Cliente:4,
+        ID_Automovil:4,
+        Fecha_Reserva:"2023-12-17",
+        Fecha_Inicio:"2023-12-17",
+        Fecha_Fin:"2023-12-17",
+        Estado:"Buen estado",
+    },
+    {
+        _id:5,
+        ID_Reserva:5,
+        ID_Cliente:5,
+        ID_Automovil:5,
+        Fecha_Reserva:"2023-12-18",
+        Fecha_Inicio:"2023-12-18",
+        Fecha_Fin:"2023-12-18",
+        Estado:"Buen estado",
+    }
+]);
+use('db_campus_alquiler')
+db.sucursal.insertMany([
+    {
+        _id:10,
+        ID_Sucursal:10,
+        Nombre:"Medellin",
+        Direccion:"calla 12 cr.312",
+        Telefono:"3224757534"
+    },
+    {
+        _id:1,
+        ID_Sucursal:3,
+        Nombre:"Cali",
+        Direccion:"calla 12 cr.32",
+        Telefono:"3224757534"
+    },
+    {
+        _id:3,
+        ID_Sucursal:4,
+        Nombre:"Bucaramanga",
+        Direccion:"calla 12 cr.32",
+        Telefono:"3224757534"
+    },
+    {
+        _id:4,
+        ID_Sucursal:5,
+        Nombre:"BuenaVentura",
+        Direccion:"calla 12 cr.32",
+        Telefono:"3224757534"
+    },
+    {
+        _id:5,
+        ID_Sucursal:6,
+        Nombre:"Barranca",
+        Direccion:"calla 12 cr.32",
+        Telefono:"3224757534"
+    },
+]);
+use('db_campus_alquiler');
+db.sucursal_automovil.insertMany([
+    {
+        _id:10,
+        ID_Sucursal_id: 2,
+        ID_Automovil_id: 2,
+        Cantidad_Disponible:10
+    },
+    {
+        _id:2,
+        ID_Sucursal_id: 3,
+        ID_Automovil_id: 3,
+        Cantidad_Disponible:2
+    },
+    {
+        _id:3,
+        ID_Sucursal_id: 4,
+        ID_Automovil_id: 4,
+        Cantidad_Disponible:5
+    },
+    {
+        _id:4,
+        ID_Sucursal_id: 5,
+        ID_Automovil_id: 5,
+        Cantidad_Disponible:15
+    },
+    {
+        _id:5,
+        ID_Sucursal_id: 6,
+        ID_Automovil_id: 6,
+        Cantidad_Disponible:101
+    },
+]);
+
+use('db_campus_alquiler');
+db.sucursal.find({ID_Sucursal:2});
+
+use('db_campus_alquiler');
+db.reserva.find();
+
+// consulta multitabla
 use("db_campus_alquiler");
 db.getCollection("sucursal").aggregate({
     $lookup:{
@@ -28,3 +503,101 @@ db.getCollection("sucursal").aggregate({
         as:"Relacion_fk"
     }
 })
+
+
+use('db_campus_alquiler');
+db.getCollection('cliente').aggregate([
+    {
+        $lookup:{
+            from:"alquiler",
+            localField:"_id",
+            foreignField:"ID_Cliente",
+            as:"alquiler_FK"
+        }
+    }
+])
+
+//consultas 
+// 2. Mostrar todos los clientes registrados en la base de datos.
+use('db_campus_alquiler');
+db.cliente.find();
+
+// 3. Obtener todos los automóviles disponibles para alquiler.
+use('db_campus_alquiler');
+db.alquiler.find({Estado:"Libre"})
+
+// 4. Listar todos los alquileres activos junto con los datos de los 
+// clientes relacionados. 
+use('db_campus_alquiler');
+db.getCollection('cliente').aggregate([
+    {
+        $lookup:{
+            from:"alquiler",
+            localField:"_id",
+            foreignField:"ID_Cliente",
+            as: "Alquiler_FK"
+        }
+    },
+    {
+        $project:{
+            "Alquiler_FK._id":0,
+            "Alquiler_FK.ID_Cliente":0,
+            "Alquiler_FK.ID_Alquiler":0,
+            "Alquiler_FK.ID_Automovil":0
+        }
+    },
+    {
+        $unwind: "$Alquiler_FK"
+    },
+    {
+        $match:{
+            "Alquiler_FK.Estado":{$eq: "Libre"}
+        }
+    },
+    {
+        $group: {
+            _id: "$_id",
+            ID_Cliente: {$first: "$ID_Cliente"},
+            Nombre: {$first: "$Nombre"},
+            Apellido: {$first: "$Apellido"},
+            DNI: {$first:"$DNI"},
+            Direccion: {$first: "$Direccion"},
+            Telefono: {$first: "$Telefono"},
+            Email: {$first:"$Email"},
+        }
+    }
+])
+
+
+use("db_campus_alquiler");
+db.alquiler.insertOne({
+    _id: 6,
+    ID_Alquiler: 6,
+    ID_Cliente: 1,
+    ID_Automovil: 1,
+    Fecha_Inicio: "2020-12-12",
+    Fecha_Fin: "2020-12-15",
+    Costo_Total: 2000,
+    Estado: "Libre",
+});
+
+
+use('db_campus_alquiler');
+db.alquiler.find();
+db.alquiler.findAndModify({
+    query:{ _id:6 },
+    sort:{ rating:1},
+    remove: true
+});
+
+use('db_campus_alquiler');
+db.cliente.insertOne({
+    _id: 6,
+    ID_Cliente: 6,
+    Nombre: "Jhon2",
+    Apellido: "Hernandez2_6",
+    DNI: "SAL-123",
+    Direccion: "calle 23 - 3",
+    Telefono: "43321213",
+    Email: "Email2.email.com.co"
+});
