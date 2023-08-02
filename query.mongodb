@@ -504,7 +504,6 @@ db.getCollection("sucursal").aggregate({
     }
 })
 
-
 use('db_campus_alquiler');
 db.getCollection('cliente').aggregate([
     {
@@ -695,9 +694,9 @@ db.getCollection('alquiler').aggregate([
         $match:{Fecha_Inicio:"2023-07-05"}
     }
 ])
+
 // Otramforma con menos espesificacipnes
 db.alquiler.find({Fecha_Inicio:"2023-07-05"});
-
 
 // 13.Listar las reservas pendientes realizadas por un cliente
 // específico.
@@ -723,7 +722,6 @@ db.getCollection('reserva').aggregate([
         }
     }
 ])
-
 
 // 14.Mostrar los empleados con cargo de "Gerente" o "Asistente".
 use("db_campus_alquiler");
@@ -834,8 +832,6 @@ db.getCollection('alquiler').find({
 });
 
 
-
-
 use("db_campus_alquiler");
 db.empleado.find();
 
@@ -869,9 +865,11 @@ db.empleado.insertOne(  {
     Cargo: "Asistente"
 });
 
-
 use('db_campus_alquiler');
 db.alquiler.find();
+
+use('db_campus_alquiler');
+
 db.alquiler.findAndModify({
     query:{ _id:6 },
     sort:{ rating:1},
@@ -889,4 +887,3 @@ db.automovil.insertOne({
     Capacidad: 5,
     Precio_Diario: 1200
 });
-
