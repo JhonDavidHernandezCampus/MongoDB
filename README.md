@@ -68,17 +68,36 @@ db.getCollection('cliente').aggregate([
         }
     }
 ])
-
-
-
 ```
-
 
 
 $lookup parámetros:
 
 - `from: "alquiler":` Especifica la colección con la que queremos realizar la unión, en este caso, "alquiler".
-- `localField: "ID_Alquiler":` Especifica el campo de la colección actual ("cliente") que se utilizará para la unión.
-- `foreignField: "ID_Cliente":` Especifica el campo de la colección con la que estamos haciendo la unión ("alquiler") que se utilizará para la unión.
-- `as: "alquiler_FK":` Este es el nombre del nuevo campo que se creará en cada documento de la colección "cliente" que contendrá los datos de la colección "alquiler" que coincidan con la unión.
+- `localField: "ID_Alquiler":` Especifica el campo de la coleccion actual ("cliente") que se utilizará para la unión.
+- `foreignField: "ID_Cliente":` Especifica el campo de la coleccion con la que estamos haciendo la unión ("alquiler") que se utilizará para la unión.
+- `as: "alquiler_FK":` Este es el nombre del nuevo campo que se creará en cada documento de la colección "cliente" que contendrá los datos de la coleccion "alquiler" que coincidan con la unión.
 
+#### Operadores en MongoDB
+
+- `$lt:` Less Than - Busca documentos donde el valor de un campo sea menor que el valor especificado.
+- `$gte:` Greater Than or Equal - Busca documentos donde el valor de un campo sea mayor o igual al valor especificado.
+- `$lte:` Less Than or Equal - Busca documentos donde el valor de un campo sea menor o igual al valor especificado.
+- `$eq:` Equal - Busca documentos donde el valor de un campo sea igual al valor especificado.
+- `$ne:` Not Equal - Busca documentos donde el valor de un campo no sea igual al valor especificado.
+
+#### Metodos de ordenamiento
+
+- `sort:` .sort({ "Marca": 1, "Modelo": 1 }): Agrega el método sort para ordenar los resultados. En este caso, los automóviles se ordenarán de forma ascendente (1) según el campo "Marca" y, en caso de empate, se ordenarán por el campo "Modelo" también de forma ascendente.
+
+- `sort:`  Ordena los documentos en función de uno o más campos en orden ascendente (1) o descendente (-1).
+- `limit:`  Limita la cantidad de documentos que se devuelven en la consulta.
+- `skip:`  Omite una cantidad específica de documentos en los resultados de la consulta.
+- `count:`  Devuelve el número total de documentos que cumplen con los criterios de la consulta.
+- `countDocuments:` Me cuenta la cantidad de documentos que cumplen con una condicion
+- `distinct:`  Encuentra valores únicos para un campo específico en la colección.
+- `aggregate:`  Permite realizar operaciones de agregación más avanzadas, como $group, $match, $project, etc.
+- `find:`  Recupera documentos que coinciden con los criterios de consulta especificados.
+- `findOne:`  Recupera el primer documento que cumpla con los criterios de consulta especificados.
+- `deleteOne  y deleteMany:` Eliminan uno o varios documentos que cumplan con los criterios de consulta.
+- `updateOne  y updateMany:` Actualizan uno o varios documentos que cumplan con los criterios de consulta.
