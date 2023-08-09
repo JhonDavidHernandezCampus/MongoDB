@@ -1,6 +1,6 @@
 import express  from "express";
 import mongodb from 'mongodb';
-import { conx } from "../db/db.js";
+import { conx } from "./../db/db.js";
 
 const router = express.Router();
 
