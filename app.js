@@ -7,6 +7,7 @@ const appExpress = express();
 
 appExpress.use(express.json());
 appExpress.use(express.text());
+
 appExpress.use('/', routes);
 
 let config = JSON.parse(process.env.MY_CONFIG);

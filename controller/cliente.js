@@ -4,7 +4,7 @@ import { conx } from "./../db/db.js";
 
 const router = express.Router();
 
-router.get('/', async(req,res)=>{
+router.get('/mostrar', async(req,res)=>{
     try {
         let db = await conx();
         let cliente = db.collection("cliente");
