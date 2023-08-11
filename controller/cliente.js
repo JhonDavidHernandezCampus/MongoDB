@@ -1,11 +1,12 @@
 import express  from "express";
-import mongodb from 'mongodb';
 import { conx } from "./../db/db.js";
+import  {limit}  from "./../limit/limit.js";
 
 const router = express.Router();
 
-router.get('/mostrar', async(req,res)=>{
+router.get('/',limit(),async(req,res)=>{
     try {
+        console.log(req.rateLimit, "esto es");
         let db = await conx();
         let cliente = db.collection("cliente");
         let result = await cliente.find().toArray();
