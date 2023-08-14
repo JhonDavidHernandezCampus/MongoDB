@@ -26,7 +26,7 @@ export class Cliente{
     @IsDefined({message: ()=>{throw { status:422, message:`El apellido del cliente debe ser hobligatoria`}}})
     Apellido:string;
     
-    @Expose({name: 'DNII'})
+    @Expose({name: 'DNI'})
     @IsDefined({message: ()=>{throw {status:422,message:`El DNI del cliente debe ser hobligatorio`}}})
     /* @Transform(({ value })=>{
         if(/^[a-z A-Z]+[0-9]+$/.test(value))return value;
