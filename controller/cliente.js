@@ -1,14 +1,14 @@
 import express  from "express";
 import { conx } from "./../db/db.js";
-import  {limit}  from "./../limit/limit.js";
-
+import  {limit}  from "../middleware/limit.js";
+import { verify , DTOData } from './../middleware/verifyData.js';
 const router = express.Router();
 
-router.get('/',limit(),async(req,res)=>{
+let db = await conx();
+let cliente = db.collection("cliente");
+
+router.get('/',limit(), verify , async(req,res)=>{
     try {
-        console.log(req.rateLimit, "esto es");
-        let db = await conx();
-        let cliente = db.collection("cliente");
         let result = await cliente.find().toArray();
         res.send(result);   
     } catch (error) {
