@@ -6,6 +6,8 @@ import { SignJWT, jwtVerify } from 'jose';
 import { Sucursal } from './../controllerDTO/sucursal.js';
 import {Reserva} from './../controllerDTO/reserva.js';
 import { Cliente } from './../controllerDTO/cliente.js';
+import { Automovil} from './../controllerDTO/automovil.js';
+import { Alquiler } from './../controllerDTO/Alquiler.js';
 
 
 dotenv.config("../");
@@ -16,7 +18,9 @@ const DTO = (p1) =>{
     const match = {
         'Sucursal': Sucursal,
         'Reserva': Reserva,
-        'Cliente': Cliente
+        'Cliente': Cliente,
+        'Automovil':Automovil,
+        'Alquiler': Alquiler,
     };  
     const instan = match[p1];
     if(!instan) throw {status:404, message:"Token que solisita no es valido"}
@@ -27,6 +31,7 @@ const DTO = (p1) =>{
 JWT.use('/:collection', async(req,res)=>{
     try {
         let instan = DTO(req.params.collection).atributos;
+        //console.log(instan);
         const encoder = new TextEncoder();
         const jwtConstructor = new SignJWT(Object.assign({},classToPlain(instan)));
         const jwt = await jwtConstructor
@@ -35,6 +40,7 @@ JWT.use('/:collection', async(req,res)=>{
         .setExpirationTime("1h")
         .sign(encoder.encode(process.env.CLAVE_FIRMA));
         req.data = jwt;
+        // console.log(req.data, "constructor");
         res.status(201).send({status: 201, message: jwt});
     } catch (error) {
         res.status(404).send({status: 404, message: error});

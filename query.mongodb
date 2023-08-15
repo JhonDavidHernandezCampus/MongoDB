@@ -650,54 +650,49 @@ db.registro_entrega.insertMany([
 use('db_campus_alquiler')
 db.reserva.insertMany([
     {
-        _id:1,
-        ID_Reserva:1,
-        ID_Cliente:1,
-        ID_Automovil:1,
-        Fecha_Reserva:"2023-12-12",
-        Fecha_Inicio:"2023-12-15",
-        Fecha_Fin:"2023-12-16",
-        Estado:"Buen estado",
+        ID_Reserva_id:1,
+        ID_Cliente_id:1,
+        ID_Automovil_id:1,
+        Fecha_Reserva:new Date("2023-12-12"),
+        Fecha_Inicio:new Date("2023-12-15"),
+        Fecha_Fin:new Date("2023-12-16"),
+        Estado:"Pendiente",
     },
     {
-        _id:2,
-        ID_Reserva:2,
-        ID_Cliente:2,
-        ID_Automovil:2,
-        Fecha_Reserva:"2023-12-13",
-        Fecha_Inicio:"2023-12-15",
-        Fecha_Fin:"2023-12-17",
-        Estado:"Buen estado",
+        ID_Reserva_id:2,
+        ID_Cliente_id:2,
+        ID_Automovil_id:2,
+        Fecha_Reserva:new Date("2023-12-13"),
+        Fecha_Inicio:new Date("2023-12-15"),
+        Fecha_Fin:new Date("2023-12-17"),
+        Estado:"Ocupado",
     },
     {
-        _id:3,
-        ID_Reserva:3,
-        ID_Cliente:3,
-        ID_Automovil:3,
-        Fecha_Reserva:"2023-12-14",
-        Fecha_Inicio:"2023-12-17",
-        Fecha_Fin:"2023-12-17",
-        Estado:"Buen estado",
+        ID_Reserva_id:3,
+        ID_Cliente_id:3,
+        ID_Automovil_id:3,
+        Fecha_Reserva:new Date("2023-12-14"),
+        Fecha_Inicio:new Date("2023-12-17"),
+        Fecha_Fin:new Date("2023-12-17"),
+        Estado:"Libre",
     },
     {
-        _id:4,
-        ID_Reserva:4,
-        ID_Cliente:4,
-        ID_Automovil:4,
-        Fecha_Reserva:"2023-12-17",
-        Fecha_Inicio:"2023-12-17",
-        Fecha_Fin:"2023-12-17",
-        Estado:"Buen estado",
+        ID_Reserva_id:4,
+        ID_Cliente_id:4,
+        ID_Automovil_id:4,
+        Fecha_Reserva:new Date("2023-12-17"),
+        Fecha_Inicio:new Date("2023-12-17"),
+        Fecha_Fin:new Date("2023-12-17"),
+        Estado:"Pendiente",
     },
     {
-        _id:5,
-        ID_Reserva:5,
-        ID_Cliente:5,
-        ID_Automovil:5,
-        Fecha_Reserva:"2023-12-18",
-        Fecha_Inicio:"2023-12-18",
-        Fecha_Fin:"2023-12-18",
-        Estado:"Buen estado",
+        ID_Reserva_id:5,
+        ID_Cliente_id:5,
+        ID_Automovil_id:5,
+        Fecha_Reserva:new Date("2023-12-18"),
+        Fecha_Inicio:new Date("2023-12-18"),
+        Fecha_Fin:new Date("2023-12-18"),
+        Estado:"Ocupado",
     }
 ]);
 use('db_campus_alquiler')
@@ -808,7 +803,27 @@ db.cliente.find();
 
 // 3. Obtener todos los automóviles disponibles para alquiler.
 use('db_campus_alquiler');
-db.alquiler.find({Estado:"Libre"})
+db.getCollection('alquiler').aggregate([
+    {
+        $lookup:{
+            from:'automovil',
+            localField:'ID_Alquiler',
+            foreignField:'ID_Automovil',
+            as: "Automovil_FK"
+        }
+    },
+    {
+        $match: {
+            "Estado" : {$eq: "Libre"}
+        }
+    },
+    {
+        $unwind: "$Automovil_FK"
+    }
+]);
+
+use('db_campus_alquiler');
+db.automovil.find();
 
 // 4. Listar todos los alquileres activos junto con los datos de los 
 // clientes relacionados. 
@@ -817,8 +832,8 @@ db.getCollection('cliente').aggregate([
     {
         $lookup:{
             from:"alquiler",
-            localField:"_id",
-            foreignField:"ID_Cliente",
+            localField:"ID_Cliente",
+            foreignField:"ID_Alquiler",
             as: "Alquiler_FK"
         }
     },
@@ -847,7 +862,7 @@ db.getCollection('reserva').aggregate([
     {
         $lookup:{
             from:'cliente',
-            localField:'ID_Cliente',
+            localField:'ID_Cliente_id',
             foreignField:'ID_Cliente',
             as:'Cliente_FK'
         }
@@ -855,7 +870,7 @@ db.getCollection('reserva').aggregate([
     {
         $lookup:{
             from:'automovil',
-            localField:'ID_Automovil',
+            localField:'ID_Automovil_id',
             foreignField:'ID_Automovil',
             as:'Automovil_FK'
         }
