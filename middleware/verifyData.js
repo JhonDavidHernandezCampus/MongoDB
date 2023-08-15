@@ -17,7 +17,7 @@ verify.use((req,res,next)=>{
     let clone = JSON.stringify(classToPlain(plainToClass(DTO(clase).class,{},{ignoreDecorators:true})));
     let verify = clone === JSON.stringify(payload);
     req.data = undefined;
-    (!verify)? res.status(406).send({status:406, message: "No autorizado"}) : next();
+    (!verify)? res.status(406).send({status:406, message: "No autorizado para hacer este tramite"}) : next();
 });
 
 DTOData.use (async (req,res,next)=>{

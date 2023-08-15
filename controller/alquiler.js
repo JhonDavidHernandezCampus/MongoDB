@@ -1,7 +1,9 @@
 import { Router } from "express";
 import {conx} from './../db/db.js';
 import {limit} from './../middleware/limit.js';
+import {validateID} from './../middleware/validateID.js';
 import { verify, DTOData } from "./../middleware/verifyData.js";
+
 
 const router = Router();
 
@@ -11,7 +13,7 @@ const alquiler = db.collection("alquiler");
 
 // 4. Listar todos los alquileres activos junto con los datos de los 
 // clientes relacionados. 
-router.get('/', limit(),verify,async(req,res)=>{
+router.get('/', limit(),verify ,async(req,res)=>{
     try {
         let result = await cliente.aggregate([
             {
@@ -47,9 +49,16 @@ router.get('/', limit(),verify,async(req,res)=>{
 });
 
 
+// 6. Obtener los detalles del alquiler con el ID_Alquiler específico. 
+//use('db_campus_alquiler');
+//db.alquiler.find({ ID_Alquiler:5 });
+
+router.get('/uno/:id',limit(),(req,res,next)=>{
+    validateID(req,res,next);
+    res.send("hola")
+    // console.log(req.params.id);
 
 
-
-
+} )
 
 export default router;

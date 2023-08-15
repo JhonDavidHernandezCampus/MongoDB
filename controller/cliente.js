@@ -17,7 +17,7 @@ router.get('/',limit(), verify , async(req,res)=>{
     }
 });
 
-router.post('/', DTOData, (req, res)=>{
+router.post('/', DTOData,(req, res)=>{
     
 })
 
