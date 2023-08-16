@@ -32,5 +32,40 @@ router.get('/espesifico/:dni', limit(),verify, async(req, res)=>{
     
 });
 
+// 15.Obtener los datos de los clientes que realizaron al menos un
+// alquiler.
+
+//http://127.121.12.10:9110/Cliente/alquiler
+router.get('/alquiler',limit(),verify, async(req,res)=>{
+    try {
+        let result = await cliente.aggregate([
+            {
+                $lookup: {
+                    from: "alquiler",
+                    localField: "ID_Cliente",
+                    foreignField: "ID_Cliente",
+                    as: "FK_Alquiler"
+                }
+            },
+            {
+                $match: { "FK_Alquiler":{$ne:[]} }
+            },
+            {
+                $project:{
+                    FK_Alquiler:0,
+                    _id:0
+                }
+            }
+        ]).toArray();
+        res.send(result);
+    } catch (error) {
+        res.status(500).send({error:error});
+        
+    }
+});
+
+
+
+
 
 export default router;

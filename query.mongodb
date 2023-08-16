@@ -383,7 +383,7 @@ db.alquiler.insertMany([
         ID_Alquiler:2,
         ID_Cliente:2,
         ID_Automovil:2,
-        Fecha_Inicio:new Date("2020-13-13"),
+        Fecha_Inicio:new Date("2023-07-05"),
         Fecha_Fin:new Date("2020-13-16"),
         Costo_Total:23000.1,
         Estado:"Ocupado"
@@ -392,7 +392,7 @@ db.alquiler.insertMany([
         ID_Alquiler:3,
         ID_Cliente:3,
         ID_Automovil:3,
-        Fecha_Inicio:new Date("2020-14-4"),
+        Fecha_Inicio:new Date("2023-07-05"),
         Fecha_Fin:new Date("2020-14-17"),
         Costo_Total:20030.1,
         Estado:"Libre"
@@ -410,7 +410,7 @@ db.alquiler.insertMany([
         ID_Alquiler:5,
         ID_Cliente:5,
         ID_Automovil:5,
-        Fecha_Inicio:new Date("2020-12-16"),
+        Fecha_Inicio:new Date("2023-07-05"),
         Fecha_Fin:new Date("2020-12-17"),
         Costo_Total:2000.1,
         Estado:"Libre"
@@ -530,7 +530,7 @@ db.empleado.insertMany([
         DNI:"asd-21",
         Direccion:"Sentenario-122-21",
         Telefono:"3224729191",
-        Cargo:"Vendedor"
+        Cargo:"Gerente"
     },
     {
         ID_Empleado:2,
@@ -539,7 +539,7 @@ db.empleado.insertMany([
         DNI:"asd-22",
         Direccion:"Sentenario-122-22",
         Telefono:"3224729192",
-        Cargo:"Empleado_2"
+        Cargo:"Gerente"
     },
     {
         ID_Empleado:1,
@@ -548,7 +548,7 @@ db.empleado.insertMany([
         DNI:"asd-23",
         Direccion:"Sentenario-122-23",
         Telefono:"3224729193",
-        Cargo:"Vendedor"
+        Cargo:"Asistente"
     },
     {
         ID_Empleado:1,
@@ -557,7 +557,7 @@ db.empleado.insertMany([
         DNI:"asd-21_4",
         Direccion:"Sentenario-122-24",
         Telefono:"3224729194",
-        Cargo:"Empleado_4"
+        Cargo:"Asistente"
     },
     {
         ID_Empleado:1,
@@ -986,6 +986,7 @@ db.automovil.find({Capacidad : { $gt : 5}});
 // 12.Obtener los detalles del alquiler que tiene fecha de inicio en
 // '2023-07-05'.
 use("db_campus_alquiler");
+db.alquiler.find();
 db.getCollection('alquiler').aggregate([
     {
         $lookup: {
@@ -1012,9 +1013,9 @@ db.getCollection('alquiler').aggregate([
     {
         $match:{Fecha_Inicio:"2023-07-05"}
     }
-])
+]);
 
-// Otramforma con menos espesificacipnes
+// Otra forma con menos espesificasiones
 db.alquiler.find({Fecha_Inicio:"2023-07-05"});
 
 // 13.Listar las reservas pendientes realizadas por un cliente
@@ -1025,7 +1026,7 @@ db.getCollection('reserva').aggregate([
         $lookup: {
             from: "cliente",
             localField: "ID_Cliente",
-            foreignField: "ID_Cliente",
+            foreignField: "ID_Cliente_id",
             as: "FK_cliente"
         }
     },
@@ -1039,8 +1040,13 @@ db.getCollection('reserva').aggregate([
                 {"Estado":"Pendiente"}
             ]
         }
+    },
+    {
+        $project: {
+            "FK_cliente._id":0
+        }
     }
-])
+]);
 
 // 14.Mostrar los empleados con cargo de "Gerente" o "Asistente".
 use("db_campus_alquiler");
@@ -1070,11 +1076,11 @@ db.cliente.aggregate([
             _id:0
         }
     }
-])
+]);
 
 // 16.Listar todos los automóviles ordenados por marca y modelo.
 use("db_campus_alquiler");
-db.automovil.find().sort({Marca:1, Modelo:1})
+db.automovil.find().sort({Marca:1, Modelo:1});
 
 //17.Mostrar la cantidad total de automóviles en cada sucursal junto
 // con su dirección.

@@ -88,10 +88,51 @@ router.get('/costo/:id', limit(), verify, validateID, async(req,res)=>{
         ]).toArray();
         res.send(result);
     } catch (error) {
+        res.status(404).send({error:error});
         
     }
 
 });
+
+// 12.Obtener los detalles del alquiler que tiene fecha de inicio en
+// '2023-07-05'.
+router.get('/fecha',limit(),verify,async(req,res)=>{
+    try {
+        let fecha = new Date("2023-07-05");
+        console.log(fecha);
+        let result = await alquiler.aggregate([
+            {
+                $lookup: {
+                    from: "automovil",
+                    localField: "ID_Automovil",
+                    foreignField: "ID_Automovil",
+                    as: "FK_Automovil"
+                }
+            },
+            {
+                $lookup: {
+                    from: "cliente",
+                    localField: "ID_Cliente",
+                    foreignField: "ID_Cliente",
+                    as: "FK_Cliente"
+                }
+            },
+            {
+                $unwind: "$FK_Automovil"
+            },
+            {
+                $unwind: "$FK_Cliente"
+            },
+            {
+                $match:{Fecha_Inicio:fecha}
+            }
+        ]).toArray();
+        res.send(result);
+    } catch (error) {
+        res.status(404).send({error:error});
+    }
+});
+
 
 
 

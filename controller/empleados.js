@@ -14,7 +14,8 @@ const alquiler = db.collection("alquiler");
 
 // 7. Listar los empleados con el cargo de "Vendedor".
 // use('db_campus_alquiler');
-// db.empleado.find({Cargo:"Vendedor"});
+
+// http://127.121.12.10:9110/Empleado/cargo
 
 router.get('/',limit(),verify, async (req,res)=>{
     try {
@@ -24,6 +25,24 @@ router.get('/',limit(),verify, async (req,res)=>{
         res.status(400).send({error:error});
     }
 });
+
+// 14.Mostrar los empleados con cargo de "Gerente" o "Asistente".
+// use("db_campus_alquiler");
+// 
+
+router.get('/cargo', limit(), verify, async (req,res)=>{
+    try {
+        let result = await empleado.find({$or:[
+            {Cargo:"Gerente"},
+            {Cargo:"Asistente"}
+        ]}).toArray();
+        res.send(result);
+    } catch (error) {
+        res.status(400).send({error:error});
+    }
+});
+
+
 
 
 

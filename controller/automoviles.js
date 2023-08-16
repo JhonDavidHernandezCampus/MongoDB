@@ -94,6 +94,18 @@ router.get('/capacidad',limit(), verify, async(req,res)=>{
     } catch (error) {
         res.status(400).send({status:400,message:error});
     }
-})
+});
+
+// 16.Listar todos los automóviles ordenados por marca y modelo.
+// http://127.121.12.10:9110/Automovil/orden
+router.get('/orden', limit(), verify,async(req,res)=>{
+    try {
+        let result = await automovil.find().sort({Marca:1, Modelo:1}).toArray();
+        res.send(result);
+    } catch (error) {
+        res.status(400).send({status:400,message:error});
+    }
+});
+
 
 export default router;
