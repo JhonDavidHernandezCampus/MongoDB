@@ -8,6 +8,7 @@ import {Reserva} from './../controllerDTO/reserva.js';
 import { Cliente } from './../controllerDTO/cliente.js';
 import { Automovil} from './../controllerDTO/automovil.js';
 import { Alquiler } from './../controllerDTO/Alquiler.js';
+import { Empleado } from './../controllerDTO/empleado.js';
 
 
 dotenv.config("../");
@@ -19,8 +20,9 @@ const DTO = (p1) =>{
         'Sucursal': Sucursal,
         'Reserva': Reserva,
         'Cliente': Cliente,
-        'Automovil':Automovil,
+        'Automovil': Automovil,
         'Alquiler': Alquiler,
+        'Empleado': Empleado
     };  
     const instan = match[p1];
     if(!instan) throw {status:404, message:"Token que solisita no es valido"}

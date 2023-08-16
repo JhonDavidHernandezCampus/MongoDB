@@ -17,8 +17,20 @@ router.get('/',limit(), verify , async(req,res)=>{
     }
 });
 
-router.post('/', DTOData,(req, res)=>{
+
+// 10.Listar los clientes con el DNI específico.
+// http://127.121.12.10:9110/Cliente/espesifico/SAL-123
+
+router.get('/espesifico/:dni', limit(),verify, async(req, res)=>{
+    try {
+        let dni = req.params.dni;
+        let result = await cliente.find({DNI:dni}).toArray();
+        res.send(result);
+    } catch (error) {
+        res.status(500).send({error:error});
+    }
     
-})
+});
+
 
 export default router;

@@ -10,7 +10,6 @@ const DTOData = Router();
 verify.use((req,res,next)=>{
     if(!req.rateLimit) return;
     let clase = (req.baseUrl).slice(1);
-    //console.log(req.data);
     let { payload } = req.data;
     const {iat,exp, ...newpayload} = payload;
     payload = newpayload;

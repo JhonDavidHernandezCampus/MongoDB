@@ -19,7 +19,29 @@ db.cliente.drop();
 db.automovil.drop();
 db.alquiler.drop();
 db.sucursal_automovil.drop();
-
+use("db_campus_alquiler");
+db.createCollection('sucursal_automovil', {
+    validator:{
+        $jsonSchema:{
+            bsonType:"object",
+            required:["ID_Sucursal","ID_Automovil","Cantidad_Disponoble"],
+            properties:{
+                ID_Sucursal:{
+                    bsonType:"int",
+                    description:"Error en el tipo de tado ID_Sucursal"
+                },
+                ID_Automovil:{
+                    bsonType:"int",
+                    description:"Error en el tipo de tado ID_Automovil"
+                },
+                Cantidad_Disponoble:{
+                    bsonType:"int",
+                    description:"Error en el tipo de tado Cantidad_Disponoble"
+                }
+            }
+        }
+    }
+});
 use("db_campus_alquiler");
 // Creacion de las collecciones con los requerimientos necezarios
 db.createCollection('sucursal', {
@@ -508,7 +530,7 @@ db.empleado.insertMany([
         DNI:"asd-21",
         Direccion:"Sentenario-122-21",
         Telefono:"3224729191",
-        Cargo:"Empleado"
+        Cargo:"Vendedor"
     },
     {
         ID_Empleado:2,
@@ -526,7 +548,7 @@ db.empleado.insertMany([
         DNI:"asd-23",
         Direccion:"Sentenario-122-23",
         Telefono:"3224729193",
-        Cargo:"Empleado_3"
+        Cargo:"Vendedor"
     },
     {
         ID_Empleado:1,
@@ -544,7 +566,7 @@ db.empleado.insertMany([
         DNI:"asd-25",
         Direccion:"Sentenario-122-25",
         Telefono:"32247291912",
-        Cargo:"Empleado_5"
+        Cargo:"Vendedor"
     }
 ]);
 use('db_campus_alquiler');
@@ -736,34 +758,29 @@ db.sucursal.insertMany([
 use('db_campus_alquiler');
 db.sucursal_automovil.insertMany([
     {
-        _id:10,
-        ID_Sucursal_id: 2,
-        ID_Automovil_id: 2,
-        Cantidad_Disponible:10
+        ID_Sucursal: 2,
+        ID_Automovil: 2,
+        Cantidad_Disponoble:10
     },
     {
-        _id:2,
-        ID_Sucursal_id: 3,
-        ID_Automovil_id: 3,
-        Cantidad_Disponible:2
+        ID_Sucursal: 3,
+        ID_Automovil: 3,
+        Cantidad_Disponoble:2
     },
     {
-        _id:3,
-        ID_Sucursal_id: 4,
-        ID_Automovil_id: 4,
-        Cantidad_Disponible:5
+        ID_Sucursal: 4,
+        ID_Automovil: 4,
+        Cantidad_Disponoble:5
     },
     {
-        _id:4,
-        ID_Sucursal_id: 5,
-        ID_Automovil_id: 5,
-        Cantidad_Disponible:15
+        ID_Sucursal: 5,
+        ID_Automovil: 5,
+        Cantidad_Disponoble:15
     },
     {
-        _id:5,
-        ID_Sucursal_id: 6,
-        ID_Automovil_id: 6,
-        Cantidad_Disponible:101
+        ID_Sucursal: 6,
+        ID_Automovil: 6,
+        Cantidad_Disponoble:101
     },
 ]);
 
@@ -890,19 +907,21 @@ db.getCollection('reserva').aggregate([
 use('db_campus_alquiler');
 db.alquiler.find({ ID_Alquiler:5 });
 
+db.empleado.deleteMany({});
 // 7. Listar los empleados con el cargo de "Vendedor".
 use('db_campus_alquiler');
-db.empleado.find({Cargo:"Vendedor"});
+db.empleado.find({Cargo: "Vendedor"});
 
 // 8. Mostrar la cantidad total de automóviles disponibles en cada
 // sucursal.
 use("db_campus_alquiler");
+db.sucursal_automovil.find();
 db.getCollection('sucursal_automovil').aggregate([
     {
         $lookup:{
             from:"sucursal",
             localField:"ID_Sucursal",
-            foreignField:"ID_Sucursal_id",
+            foreignField:"ID_Sucursal",
             as:"Sucursal_FK"
         }
     },

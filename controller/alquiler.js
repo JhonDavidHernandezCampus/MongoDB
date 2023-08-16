@@ -48,17 +48,52 @@ router.get('/', limit(),verify ,async(req,res)=>{
     }
 });
 
-
 // 6. Obtener los detalles del alquiler con el ID_Alquiler específico. 
-//use('db_campus_alquiler');
-//db.alquiler.find({ ID_Alquiler:5 });
+router.get('/uno/:id',limit(), validateID ,async(req,res,next)=>{
+    let id = parseInt(req.params.id);
+    try {
+        let result = await alquiler.find({ ID_Alquiler:id }).toArray();
+        res.send(result);
+    } catch (error) {
+        res.status(404).send({error:error});
+    }
+})
 
-router.get('/uno/:id',limit(),(req,res,next)=>{
-    validateID(req,res,next);
-    res.send("hola")
-    // console.log(req.params.id);
+// 9. Obtener el costo total de un alquiler específico. 
+router.get('/costo/:id', limit(), verify, validateID, async(req,res)=>{
+    try {
+        let result = await alquiler.aggregate([
+            {
+                $lookup:{
+                    from:"automovil",
+                    localField:"ID_Automovil",
+                    foreignField:"ID_Automovil",
+                    as:"FK_Automovil"
+                }
+            },
+            {
+                $unwind: "$FK_Automovil"
+            },
+            {
+                $match: {ID_Alquiler:1}
+            },
+            {
+                $project: {
+                    _id: 1,
+                    Costo_Total: 1,
+                    Estado: 1,
+                    Modelo:"$FK_Automovil.Modelo"
+                }
+            }
+        ]).toArray();
+        res.send(result);
+    } catch (error) {
+        
+    }
+
+});
 
 
-} )
+
 
 export default router;
