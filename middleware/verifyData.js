@@ -19,7 +19,7 @@ verify.use((req,res,next)=>{
     (!verify)? res.status(406).send({status:406, message: "No autorizado para hacer este tramite"}) : next();
 });
 
-DTOData.use (async (req,res,next)=>{
+DTOData.use(async (req,res,next)=>{
     try {
         let clase = (req.baseUrl).slice(1);
         let data = plainToClass(DTO(clase).class, req.body);

@@ -49,7 +49,7 @@ router.get('/', limit(),verify ,async(req,res)=>{
 });
 
 // 6. Obtener los detalles del alquiler con el ID_Alquiler específico. 
-router.get('/uno/:id',limit(), validateID ,async(req,res,next)=>{
+router.get('/uno/:id',limit(), validateID ,verify,async(req,res,next)=>{
     let id = parseInt(req.params.id);
     try {
         let result = await alquiler.find({ ID_Alquiler:id }).toArray();
@@ -57,7 +57,7 @@ router.get('/uno/:id',limit(), validateID ,async(req,res,next)=>{
     } catch (error) {
         res.status(404).send({error:error});
     }
-})
+});
 
 // 9. Obtener el costo total de un alquiler específico. 
 router.get('/costo/:id', limit(), verify, validateID, async(req,res)=>{
@@ -133,8 +133,34 @@ router.get('/fecha',limit(),verify,async(req,res)=>{
     }
 });
 
+// 18.Obtener la cantidad total de alquileres registrados en la base de
+// datos.
+
+router.get('/total', limit(), verify, async(req,res)=>{
+    try {
+        let result  = await alquiler.countDocuments();
+        res.send({"Cantidad_Alquileres":result});
+    } catch (error) {
+        res.status(404).send({error:error});
+    }
+});
+
+// 21.Listar los alquileres con fecha de inicio entre '2023-07-05' y
+// '2023-07-10'.
 
 
-
+router.get('/intervalo',limit(),verify, async( req,res)=>{
+    try {
+        let result = await alquiler.find({
+            $and:[
+                {Fecha_Inicio: {$gte:new Date('2023-07-05')}},
+                {Fecha_Fin : {$lte:new Date('2023-07-10')}}
+            ]
+        }).toArray();
+        res.send(result);
+    } catch (error) {
+        res.status(404).send({error:error});
+    }
+});
 
 export default router;

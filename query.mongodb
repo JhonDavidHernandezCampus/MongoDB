@@ -1085,12 +1085,18 @@ db.automovil.find().sort({Marca:1, Modelo:1});
 //17.Mostrar la cantidad total de automóviles en cada sucursal junto
 // con su dirección.
 use("db_campus_alquiler");
+db.sucursal.find();
+
+use("db_campus_alquiler");
+db.sucursal_automovil.find();
+
+use("db_campus_alquiler");
 db.sucursal.aggregate([
     {    
         $lookup: {
             from: "sucursal_automovil",
             localField: "ID_Sucursal",
-            foreignField: "ID_Sucursal_id",
+            foreignField: "ID_Sucursal",
             as: "FK_Sucursal_Auto" 
         }
     },
@@ -1102,7 +1108,7 @@ db.sucursal.aggregate([
             _id:"$_id",
             Nombre:{$first:"$Nombre"},
             Direccion:{$first:"$Direccion"},
-            Cantidad_Autos:{$sum:"$FK_Sucursal_Auto.Cantidad_Disponible"}
+            Cantidad_Autos:{$sum:"$FK_Sucursal_Auto.Cantidad_Disponoble"}
         }
     },
     {
@@ -1113,7 +1119,7 @@ db.sucursal.aggregate([
             Cantidad_Autos: 1
         }
     }
-])
+]);
 
 // 18.Obtener la cantidad total de alquileres registrados en la base de
 // datos.
@@ -1123,19 +1129,38 @@ db.getCollection('alquiler').countDocuments();
 // 19.Mostrar los automóviles con capacidad igual a 5 personas y que
 // estén disponibles.
 use("db_campus_alquiler");
-db.automovil.find({Capacidad:{$eq:5}});
+db.automovil.aggregate([
+    {
+        $lookup: {
+            from: "reserva",
+            localField: "ID_Automovil",
+            foreignField: "ID_Automovil_id",
+            as: "FK_Reserva"
+        }
+    },
+    {
+        $unwind: "$FK_Reserva"
+    },
+    {
+        $match: {
+            "FK_Reserva.Estado": "Libre",
+            "Capacidad":5
+        }
+    }
+]);
 
 // 20.Obtener los datos del cliente que realizó la reserva con un
 // Automovil espesifico
+
 use("db_campus_alquiler");
 db.getCollection('reserva').aggregate([
     {
-        $match: { ID_Automovil:1 }
+        $match: { ID_Automovil_id:1 }
     },
     {
         $lookup: {
             from: "cliente",
-            localField: "ID_Cliente",
+            localField: "ID_Cliente_id",
             foreignField: "ID_Cliente",
             as: "FK_Cliente"
         }
@@ -1151,8 +1176,8 @@ db.getCollection('reserva').aggregate([
 use('db_campus_alquiler');
 db.getCollection('alquiler').find({
     $and:[
-        {Fecha_Inicio: {$gte:'2023-07-05'}},
-        {Fecha_Fin : {$lte:'2023-07-10'}}
+        {Fecha_Inicio: {$gte:new Date('2023-07-05')}},
+        {Fecha_Fin : {$lte:new Date('2023-07-10')}}
     ]
 });
 
@@ -1168,18 +1193,28 @@ db.cliente.find();
 
 use("db_campus_alquiler");
 db.alquiler.insertOne({
-    _id: 11,
-    ID_Alquiler: 1,
+    ID_Alquiler: 100,
     ID_Cliente: 1,
-    ID_Automovil: 1,
-    Fecha_Inicio: "2023-07-05",
-    Fecha_Fin: "2023-07-08",
-    Costo_Total: 20030,
-    Estado: "Pendiente"
+    ID_Automovil: 10,
+    Fecha_Inicio: new Date("2023-07-05"),
+    Fecha_Fin: new Date("2023-07-08"),
+    Costo_Total: 2003.12,
+    Estado: "Libre"
+});
+
+use("db_campus_alquiler");
+db.reserva.insertOne({
+    ID_Reserva_id: 100,
+    ID_Cliente_id: 1,
+    ID_Automovil_id: 100,
+    Fecha_Reserva: new Date("2023-07-05"),
+    Fecha_Inicio: new Date("2023-07-08"),
+    Fecha_Fin: new Date("2023-07-08"),
+    Estado: "Libre"
 });
 
 use('db_campus_alquiler');
-db.empleado.insertOne(  {
+db.empleado.insertOne({
     _id: 9,
     ID_Empleado: 9,
     Nombre: "Jose",
@@ -1203,12 +1238,11 @@ db.alquiler.findAndModify({
 
 use('db_campus_alquiler');
 db.automovil.insertOne({
-    _id: 9,
-    ID_Automovil: 9,
+    ID_Automovil: 100,
     Marca: "Chebrolet",
     Modelo: "ZQ 12",
-    Anio: 2020,
+    Anio: "2020",
     Tipo: "Casero",
     Capacidad: 5,
-    Precio_Diario: 1200
+    Precio_Diario: 1200.1
 });

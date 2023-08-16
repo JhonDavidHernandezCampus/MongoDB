@@ -6,6 +6,7 @@ const router = express.Router();
 
 let db = await conx();
 let cliente = db.collection("cliente");
+let reserva = db.collection("reserva");
 
 router.get('/',limit(), verify , async(req,res)=>{
     try {
@@ -64,7 +65,32 @@ router.get('/alquiler',limit(),verify, async(req,res)=>{
     }
 });
 
-
+// 20.Obtener los datos del cliente que realizó la reserva con un
+// Automovil espesifico
+// http://127.121.12.10:9110/Alquiler/intervalo
+router.get('/reserva',limit(),verify,async(req,res)=>{
+    try {
+        let result = await reserva.aggregate([
+            {
+                $match: { ID_Automovil_id:1 }
+            },
+            {
+                $lookup: {
+                    from: "cliente",
+                    localField: "ID_Cliente_id",
+                    foreignField: "ID_Cliente",
+                    as: "FK_Cliente"
+                }
+            },
+            {
+                $unwind: "$FK_Cliente"
+            }
+        ]).toArray();
+        res.send(result);
+    } catch (error) {
+        res.status(500).send({error:error});
+    }
+});
 
 
 

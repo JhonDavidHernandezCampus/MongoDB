@@ -8,6 +8,8 @@ const router = Router();
 const db = await conx();
 const automovil = db.collection("automovil");
 const sucursal_automovil = db.collection("sucursal_automovil");
+const sucursal = db.collection("sucursal");
+
 
 
 // 3. Obtener todos los automóviles disponibles para alquiler.
@@ -101,6 +103,79 @@ router.get('/capacidad',limit(), verify, async(req,res)=>{
 router.get('/orden', limit(), verify,async(req,res)=>{
     try {
         let result = await automovil.find().sort({Marca:1, Modelo:1}).toArray();
+        res.send(result);
+    } catch (error) {
+        res.status(400).send({status:400,message:error});
+    }
+});
+
+//17.Mostrar la cantidad total de automóviles en cada sucursal junto
+// con su dirección.
+//  http://127.121.12.10:9110/Automovil/total
+
+router.get('/total',limit(),verify,async(req,res)=>{
+    try {
+        let result = await sucursal.aggregate([
+            {    
+                $lookup: {
+                    from: "sucursal_automovil",
+                    localField: "ID_Sucursal",
+                    foreignField: "ID_Sucursal",
+                    as: "FK_Sucursal_Auto" 
+                }
+            },
+            {
+                $unwind: "$FK_Sucursal_Auto"
+            },
+            {
+                $group: {
+                    _id:"$_id",
+                    Nombre:{$first:"$Nombre"},
+                    Direccion:{$first:"$Direccion"},
+                    Cantidad_Autos:{$sum:"$FK_Sucursal_Auto.Cantidad_Disponoble"}
+                }
+            },
+            {
+                $project: {
+                    _id: 1,
+                    Nombre: 1,
+                    Direccion: 1,
+                    Cantidad_Autos: 1
+                }
+            }
+        ]).toArray();
+        res.send(...result);
+    } catch (error) {
+        res.status(400).send({status:400,message:error});
+    }
+});
+
+// 19.Mostrar los automóviles con capacidad igual a 5 personas y que
+// estén disponibles.
+
+//http://127.121.12.10:9110/Automovil/capadisponibles
+
+router.get('/capadisponibles',limit(), verify,async(req,res)=>{
+    try {
+        let result = await automovil.aggregate([
+            {
+                $lookup: {
+                    from: "reserva",
+                    localField: "ID_Automovil",
+                    foreignField: "ID_Automovil_id",
+                    as: "FK_Reserva"
+                }
+            },
+            {
+                $unwind: "$FK_Reserva"
+            },
+            {
+                $match: {
+                    "FK_Reserva.Estado": "Libre",
+                    "Capacidad":5
+                }
+            }
+        ]).toArray();
         res.send(result);
     } catch (error) {
         res.status(400).send({status:400,message:error});
