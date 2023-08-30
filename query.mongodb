@@ -19,6 +19,7 @@ db.cliente.drop();
 db.automovil.drop();
 db.alquiler.drop();
 db.sucursal_automovil.drop();
+
 use("db_campus_alquiler");
 db.createCollection('sucursal_automovil', {
     validator:{

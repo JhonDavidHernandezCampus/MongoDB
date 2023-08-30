@@ -135,7 +135,6 @@ router.get('/fecha',limit(),verify,async(req,res)=>{
 
 // 18.Obtener la cantidad total de alquileres registrados en la base de
 // datos.
-
 router.get('/total', limit(), verify, async(req,res)=>{
     try {
         let result  = await alquiler.countDocuments();
@@ -147,8 +146,6 @@ router.get('/total', limit(), verify, async(req,res)=>{
 
 // 21.Listar los alquileres con fecha de inicio entre '2023-07-05' y
 // '2023-07-10'.
-
-
 router.get('/intervalo',limit(),verify, async( req,res)=>{
     try {
         let result = await alquiler.find({

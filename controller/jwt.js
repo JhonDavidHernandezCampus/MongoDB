@@ -1,10 +1,11 @@
-import 'reflect-metadata';
+    import 'reflect-metadata';
 import { plainToClass, classToPlain } from 'class-transformer';
 import dotenv from 'dotenv';
 import { Router } from 'express';
 import { SignJWT, jwtVerify } from 'jose';
+
 import { Sucursal } from './../controllerDTO/sucursal.js';
-import {Reserva} from './../controllerDTO/reserva.js';
+import { Reserva } from './../controllerDTO/reserva.js';
 import { Cliente } from './../controllerDTO/cliente.js';
 import { Automovil} from './../controllerDTO/automovil.js';
 import { Alquiler } from './../controllerDTO/Alquiler.js';

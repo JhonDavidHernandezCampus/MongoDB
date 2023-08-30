@@ -1,7 +1,7 @@
-import 'reflect-metadata';
+    import 'reflect-metadata';
 import { plainToClass, classToPlain } from 'class-transformer';
-import { Validate } from 'class-validator';
-import {DTO} from './../controller/jwt.js';   
+import { validate } from 'class-validator';
+import { DTO } from './../controller/jwt.js';   
 import { Router } from 'express';
 
 const verify = Router();
@@ -23,7 +23,7 @@ DTOData.use(async (req,res,next)=>{
     try {
         let clase = (req.baseUrl).slice(1);
         let data = plainToClass(DTO(clase).class, req.body);
-        await Validate(data);
+        await validate(data);
         req.body = JSON.parse(JSON.stringify(data));
         //console.log(req.body);
         req.data = undefined;

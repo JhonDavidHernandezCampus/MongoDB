@@ -70,38 +70,6 @@ db.getCollection('cliente').aggregate([
 ])
 ```
 
-
-$lookup parámetros:
-
-- `from: "alquiler":` Especifica la colección con la que queremos realizar la unión, en este caso, "alquiler".
-- `localField: "ID_Alquiler":` Especifica el campo de la coleccion actual ("cliente") que se utilizará para la unión.
-- `foreignField: "ID_Cliente":` Especifica el campo de la coleccion con la que estamos haciendo la unión ("alquiler") que se utilizará para la unión.
-- `as: "alquiler_FK":` Este es el nombre del nuevo campo que se creará en cada documento de la colección "cliente" que contendrá los datos de la coleccion "alquiler" que coincidan con la unión.
-
-#### Operadores en MongoDB
-
-- `$lt:` Less Than - Busca documentos donde el valor de un campo sea menor que el valor especificado.
-- `$gte:` Greater Than or Equal - Busca documentos donde el valor de un campo sea mayor o igual al valor especificado.
-- `$lte:` Less Than or Equal - Busca documentos donde el valor de un campo sea menor o igual al valor especificado.
-- `$eq:` Equal - Busca documentos donde el valor de un campo sea igual al valor especificado.
-- `$ne:` Not Equal - Busca documentos donde el valor de un campo no sea igual al valor especificado.
-
-#### Metodos de ordenamiento
-
-- `sort:` .sort({ "Marca": 1, "Modelo": 1 }): Agrega el método sort para ordenar los resultados. En este caso, los automóviles se ordenarán de forma ascendente (1) según el campo "Marca" y, en caso de empate, se ordenarán por el campo "Modelo" también de forma ascendente.
-
-- `sort:`  Ordena los documentos en función de uno o más campos en orden ascendente (1) o descendente (-1).
-- `limit:`  Limita la cantidad de documentos que se devuelven en la consulta.
-- `skip:`  Omite una cantidad específica de documentos en los resultados de la consulta.
-- `count:`  Devuelve el número total de documentos que cumplen con los criterios de la consulta.
-- `countDocuments:` Me cuenta la cantidad de documentos que cumplen con una condicion
-- `distinct:`  Encuentra valores únicos para un campo específico en la colección.
-- `aggregate:`  Permite realizar operaciones de agregación más avanzadas, como $group, $match, $project, etc.
-- `find:`  Recupera documentos que coinciden con los criterios de consulta especificados.
-- `findOne:`  Recupera el primer documento que cumpla con los criterios de consulta especificados.
-- `deleteOne  y deleteMany:` Eliminan uno o varios documentos que cumplan con los criterios de consulta.
-- `updateOne  y updateMany:` Actualizan uno o varios documentos que cumplan con los criterios de consulta.
-
 ## Que se hace en este proyecto?
 
 - En este mini proyecto hacemos un menejo de una base de datos de mongodb, hacienlo la conexion algunas consultas.
@@ -146,24 +114,157 @@ cada una se puede instalar de la siguiente forma
  npm -i -E -E _NombreLibreria
  ```
 
-`body-parser`: Esta biblioteca se utiliza para analizar los cuerpos de las solicitudes HTTP entrantes. Es especialmente útil para obtener datos enviados desde formularios o en formato JSON y convertirlos en objetos JavaScript utilizables.
+# Datos y funcionamiento del api
 
-`class-transformer`: Esta biblioteca ayuda a transformar objetos JavaScript en instancias de clases personalizadas y viceversa. Puede ser útil para validar y manipular datos en tu aplicación.
 
-`class-validator`: Se usa junto con class-transformer para validar los objetos transformados en instancias de clases personalizadas. Permite definir reglas de validación en las clases, como campos requeridos o formatos específicos.
+### Rutas para la tabla cliente
 
-`dotenv`: Esta biblioteca carga variables de entorno desde un archivo .env, lo que es útil para almacenar configuraciones sensibles o ajustes específicos de la aplicación fuera del código fuente.
 
-`express`: Express es un framework web para Node.js que simplifica la creación de aplicaciones web y APIs. Proporciona una capa de abstracción sobre HTTP y ofrece herramientas para manejar rutas, middleware y solicitudes HTTP.
+###### Ruta 1
+- Method = GET
+http://127.121.12.10:9110/Cliente
 
-`express-rate-limit`: Esta biblioteca permite establecer límites en las solicitudes entrantes a tu servidor Express. Puede ser útil para prevenir ataques de fuerza bruta o abusos.
+- Esta ruta me lista todos los de clientes en la base de datos
 
-`mongodb`: MongoDB es una base de datos NoSQL que se utiliza para almacenar datos en formato JSON-like (BSON). La biblioteca proporciona métodos para interactuar con la base de datos MongoDB desde Node.js.
 
-`mysql2`: mysql2 es un controlador de MySQL para Node.js. Permite conectarse a bases de datos MySQL, ejecutar consultas y gestionar los resultados.
+###### Ruta 2
+- Method = GET
+http://127.121.12.10:9110/Cliente/espesifico/SAL-123
 
-`nodemon`: Nodemon es una herramienta que supervisa los cambios en los archivos de tu aplicación y automáticamente reinicia el servidor cuando detecta cambios. Es útil para agilizar el proceso de desarrollo.
+- Esta ruta me lista los clientes con el DNI específico
 
-`reflect-metadata`: Esta biblioteca se utiliza junto con TypeScript y decoradores para habilitar la reflexión en tiempo de ejecución. Esto es útil para algunas técnicas avanzadas y para frameworks como TypeORM.
+###### Ruta 3
+- Method = GET
+http://127.121.12.10:9110/Cliente/alquiler
 
-`typescript`: TypeScript es un superconjunto de JavaScript que agrega tipado estático y otras características a JavaScript. Se compila a JavaScript estándar y proporciona herramientas para escribir código más seguro y escalable.
+- Esta ruta me obtiene los datos de los clientes que realizaron al menos un
+alquiler.
+
+
+###### Ruta 4
+- Method = GET
+http://127.121.12.10:9110/Cliente/reserva
+
+- Esta ruta me obtiene los datos del cliente que realizó la reserva con un
+Automovil espesifico
+
+### Rutas para la tabla Automoviles 
+###### Ruta 1
+  - Method: GET
+  http://127.121.12.10:9110/Automoviles/disponibles
+
+- Esta ruta me obtiene todos los automóviles disponibles para alquiler.
+
+###### Ruta 2
+- Method = GET
+http://127.121.12.10:9110/Automoviles/sucursal
+
+- Esta ruta me obtiene la cantidad total de automóviles disponibles en cada
+sucursal
+
+###### Ruta 3
+- Method = GET
+http://127.121.12.10:9110/Automoviles/capacidad
+
+- Esta ruta me obtiene todos los automóviles con una capacidad mayor a 5
+personas.
+
+###### Ruta 4
+- Method = GET
+http://127.121.12.10:9110/Automoviles/orden
+
+- Esta ruta me obtiene todos los automóviles ordenados por marca y modelo.
+
+
+###### Ruta 5
+- Method = GET
+http://127.121.12.10:9110/Automoviles/total
+
+- Esta ruta me obtiene la cantidad total de automóviles en cada sucursal junto
+con su dirección
+
+
+###### Ruta 6
+- Method = GET
+http://127.121.12.10:9110/Automoviles/capadisponibles
+
+- Esta ruta me obtiene los automóviles con capacidad igual a 5 personas y que
+estén disponibles.
+
+### Rutas para la tabla Alquiler 
+###### Ruta 1
+  - Method: GET
+  http://127.121.12.10:9110/Alquiler
+
+- Esta ruta me obtiene todos los alquileres activos junto con los datos de los 
+clientes relacionados. 
+
+###### Ruta 2
+  - Method: GET
+  http://127.121.12.10:9110/Alquiler/uno/:id
+
+- Esta ruta me obtiene los detalles del alquiler con el ID_Alquiler específico. 
+``Nota:`` Se debe pasar el id del alquiler reemplazando a :id
+
+###### Ruta 3
+  - Method: GET
+  http://127.121.12.10:9110/Alquiler/costo/:id
+
+- Esta ruta me obtiene el costo total de un alquiler específico.  
+``Nota:`` Se debe pasar el id del alquiler reemplazando a :id
+
+
+###### Ruta 4
+  - Method: GET
+  http://127.121.12.10:9110/Alquiler/fecha
+
+- Esta ruta me obtiene los detalles del alquiler que tiene fecha de inicio en
+ '2023-07-05'.
+
+###### Ruta 5
+- Method: GET
+http://127.121.12.10:9110/Alquiler/total
+
+- Esta ruta me obtiene la cantidad total de alquileres registrados en la base de
+datos.
+
+###### Ruta 6
+- Method: GET
+http://127.121.12.10:9110/Alquiler/intervalo
+
+- Esta ruta me obtiene los alquileres con fecha de inicio entre '2023-07-05' y
+'2023-07-10'
+
+
+### Rutas para la tabla Reserva 
+###### Ruta 1
+  - Method: GET
+  http://127.121.12.10:9110/Alquiler
+
+- Esta ruta me obtiene todas las reservas pendientes con los datos del cliente
+y el automóvil reservado.
+
+###### Ruta 2
+  - Method: GET
+  http://127.121.12.10:9110/Alquiler/pendientes/:id
+
+- Esta ruta me obtiene el costo total de un alquiler específico.  
+``Nota:`` Se debe pasar el id del reserva reemplazando a :id
+
+### Rutas para la tabla Reserva 
+###### Ruta 1
+  - Method: GET
+  http://127.121.12.10:9110/Empleados
+
+- Esta ruta me Lista los empleados con el cargo de "Vendedor".
+
+###### Ruta 2
+  - Method: GET
+  http://127.121.12.10:9110/Empleados/cargo
+
+- Esta ruta me Lista los empleados con cargo de "Gerente" o "Asistente"
+
+
+
+
+

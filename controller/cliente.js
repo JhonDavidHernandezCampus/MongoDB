@@ -8,6 +8,10 @@ let db = await conx();
 let cliente = db.collection("cliente");
 let reserva = db.collection("reserva");
 
+// * 
+// * Esta ruta me lista todos los de clientes en la base de datos
+// * http://127.121.12.10:9110/Cliente
+
 router.get('/',limit(), verify , async(req,res)=>{
     try {
         let result = await cliente.find().toArray();
@@ -16,7 +20,7 @@ router.get('/',limit(), verify , async(req,res)=>{
         console.error("Error en la consulta de los datos de los clientes:", error);
         res.status(500).send({Message:"Hubo un error al obtener los datos de los clientes."});
     }
-});
+}); 
 
 
 // 10.Listar los clientes con el DNI específico.
@@ -67,7 +71,7 @@ router.get('/alquiler',limit(),verify, async(req,res)=>{
 
 // 20.Obtener los datos del cliente que realizó la reserva con un
 // Automovil espesifico
-// http://127.121.12.10:9110/Alquiler/intervalo
+// http://127.121.12.10:9110/Cliente/reserva
 router.get('/reserva',limit(),verify,async(req,res)=>{
     try {
         let result = await reserva.aggregate([
