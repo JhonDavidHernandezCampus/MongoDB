@@ -115,7 +115,26 @@ cada una se puede instalar de la siguiente forma
  ```
 
 # Datos y funcionamiento del api
+# !Importante
+`Nota`: Para el funcionamiento del api es necesario la creacion de un token diferente para cada coleccion
+- Ejemplo
+- Method = GET
+http://127.121.12.10:9110/token/:Nombre_de_coleccion
+-Obtener el token para la colecion Sucursal
+http://127.121.12.10:9110/token/Sucursal
 
+
+Coleciones disponibles
+```json
+{
+  "Sucursal": "Sucursal",
+  "Reserva": "Reserva",
+  "Cliente": "Cliente",
+  "Automovil": "Automovil",
+  "Alquiler": "Alquiler",
+  "Empleado": "Empleado"
+}
+```
 
 ### Rutas para la tabla cliente
 
